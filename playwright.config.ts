@@ -9,7 +9,7 @@ import { defineConfig, devices } from '@playwright/test';
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
-export default defineConfig({
+module.exports = defineConfig({
     testDir: './tests',
     /* Run tests in files in parallel */
     fullyParallel: false,
@@ -35,23 +35,33 @@ export default defineConfig({
         /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
         trace: 'on-first-retry',
     },
-
+    timeout: 10000,
     /* Configure projects for major browsers */
     projects: [
         {
+            // to run the global-setup file and store login state
+            name: 'setup',
+            testMatch: './tests/setup/*.setup.ts',
+            // testMatch: '**/global-setup.ts',
+        },
+        {
             name: 'chromium',
-            use: { ...devices['Desktop Chrome'] },
+            use: {
+                ...devices['Desktop Chrome'],
+            },
+            testMatch: 'tests/ui/specs/**/*.spec.ts',
+            dependencies: ['setup'],
         },
 
-        {
-            name: 'firefox',
-            use: { ...devices['Desktop Firefox'] },
-        },
+        // {
+        //     name: 'firefox',
+        //     use: { ...devices['Desktop Firefox'] },
+        // },
 
-        {
-            name: 'webkit',
-            use: { ...devices['Desktop Safari'] },
-        },
+        // {
+        //     name: 'webkit',
+        //     use: { ...devices['Desktop Safari'] },
+        // },
 
         /* Test against mobile viewports. */
         // {
