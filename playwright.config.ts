@@ -4,7 +4,7 @@ import { defineConfig, devices } from '@playwright/test';
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
  */
-// require('dotenv').config();
+require('dotenv').config();
 
 /**
  * See https://playwright.dev/docs/test-configuration.
@@ -12,7 +12,7 @@ import { defineConfig, devices } from '@playwright/test';
 module.exports = defineConfig({
     testDir: './tests',
     /* Run tests in files in parallel */
-    fullyParallel: false,
+    fullyParallel: true,
     /* Fail the build on CI if you accidentally left test.only in the source code. */
     forbidOnly: !!process.env.CI,
     /* Retry on CI only */
@@ -23,15 +23,17 @@ module.exports = defineConfig({
     reporter: [['html', { open: 'never' }]],
     /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
     use: {
-        baseURL: 'https://qauto2.forstudy.space/',
+        baseURL: process.env.BASE_URL,
         httpCredentials: {
-            username: 'guest',
-            password: 'welcome2qauto',
+            username: process.env.HTTP_CREDENTIALS_USERNAME,
+            password: process.env.HTTP_CREDENTIALS_PASSWORD,
         },
         screenshot: 'only-on-failure',
         /* Base URL to use in actions like `await page.goto('/')`. */
         // baseURL: 'http://127.0.0.1:3000',
 
+        /*Headless mode*/
+        headless: !!process.env.CI,
         /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
         trace: 'on-first-retry',
     },

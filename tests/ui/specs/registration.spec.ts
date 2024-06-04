@@ -163,6 +163,7 @@ test('Register a new user if passwords do not match', async ({}) => {
     const expectedMessage = 'Passwords do not match';
     await registrationPage.clickSignUpButton();
     await registrationPage.fillPassword(userData.password);
+    // await page.pause();
     await registrationPage.fillRepeatPassword('qwer12346AQWSDE');
     await registrationPage.clickFooter();
     await registrationPage.assertErrorMessageIsPresent();
