@@ -23,9 +23,10 @@ This project uses [Playwright](https://playwright.dev/) with [TypeScript](https:
 
 1. Make sure you are in the project folder: `cd Hillel_Playwright`
 2. Install the project: `npm i`
-3. Create your [.env](.env) file following the [.env.example](.env.example) add your env credentials and save
-4. Make sure you have installed the (playwright test for VScode ) extension
-5. Ready to run tests
+3. Install browsers: `npx playwright install`
+4. Create your [.env](.env) file following the [.env.example](.env.example) add your env credentials and save
+5. Make sure you have installed the (playwright test for VScode ) extension
+6. Ready to run tests
 
 #### 🗝️ Run
 
