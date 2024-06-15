@@ -1,14 +1,8 @@
 import { defineConfig, devices } from '@playwright/test';
-
-/**
- * Read environment variables from file.
- * https://github.com/motdotla/dotenv
- */
+import path from 'path';
+export const STORAGE_STATE = path.join(__dirname, 'playwright/.auth/user.json');
 require('dotenv').config();
 
-/**
- * See https://playwright.dev/docs/test-configuration.
- */
 module.exports = defineConfig({
     testDir: './tests',
     /* Run tests in files in parallel */
@@ -28,10 +22,6 @@ module.exports = defineConfig({
             username: process.env.HTTP_CREDENTIALS_USERNAME,
             password: process.env.HTTP_CREDENTIALS_PASSWORD,
         },
-        screenshot: 'only-on-failure',
-        /* Base URL to use in actions like `await page.goto('/')`. */
-        // baseURL: 'http://127.0.0.1:3000',
-
         /*Headless mode*/
         headless: !!process.env.CI,
         /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
@@ -43,16 +33,17 @@ module.exports = defineConfig({
         {
             // to run the global-setup file and store login state
             name: 'setup',
-            testMatch: './tests/setup/*.setup.ts',
-            // testMatch: '**/global-setup.ts',
+            testMatch: 'tests/setup/*.setup.ts',
         },
         {
             name: 'chromium',
             use: {
                 ...devices['Desktop Chrome'],
+                storageState: STORAGE_STATE,
             },
-            testMatch: 'tests/ui/specs/**/*.spec.ts',
+            //testMatch: 'tests/ui/specs/**/*.spec.ts',
             dependencies: ['setup'],
+            testMatch: 'tests/ui/specs/*.spec.ts',
         },
 
         // {
@@ -85,11 +76,4 @@ module.exports = defineConfig({
         //   use: { ...devices['Desktop Chrome'], channel: 'chrome' },
         // },
     ],
-
-    /* Run your local dev server before starting the tests */
-    // webServer: {
-    //   command: 'npm run start',
-    //   url: 'http://127.0.0.1:3000',
-    //   reuseExistingServer: !process.env.CI,
-    // },
 });
