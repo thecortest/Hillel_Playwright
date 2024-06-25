@@ -43,7 +43,7 @@ module.exports = defineConfig({
             },
             //testMatch: 'tests/ui/specs/**/*.spec.ts',
             dependencies: ['setup'],
-            testMatch: 'tests/ui/specs/*.spec.ts',
+            testMatch: '/specs/*.spec.ts',
         },
 
         // {
